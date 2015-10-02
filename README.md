@@ -4,13 +4,13 @@
 
 Very simple [nghttpx](https://nghttp2.org/documentation/nghttpx.1.html) image.
 
-Python and CA certificates are included for OSCP support.
+Python and CA certificates are included for OCSP support.
 
 # Example Usage
 
 Reverse-proxy <http://mirror.aarnet.edu.au/> on port 81 (<abbr title="HTTP/2 cleartext">h2c</abbr>):
 
-```
+```shell
 docker run -i --rm -p 81:3000 dit4c/nghttpx \
   --frontend-no-tls \
   --host-rewrite \
@@ -19,7 +19,7 @@ docker run -i --rm -p 81:3000 dit4c/nghttpx \
 
 Reverse-proxy <http://mirror.aarnet.edu.au/> on port 443 using self-signed certs:
 
-```
+```shell
 # Create self-signed certs (elliptic curve)
 openssl ecparam -genkey -name prime256v1 -out server.key
 openssl req -new -key server.key -out server.csr
@@ -35,7 +35,7 @@ docker run -i --rm -p 443:3000 \
 
 Reverse-proxy container `myappserver` with exposed port 8080 on port 443 using self-signed certs:
 
-```
+```shell
 # (Self-signed certs, as above)
 # Run nghttpx in background
 docker run -d --name myappserver-reverse-proxy \
@@ -45,4 +45,16 @@ docker run -d --name myappserver-reverse-proxy \
   dit4c/nghttpx \
   -b backend,8080 \
   /data/server.key /data/server.crt
+```
+
+Check it works using `nghttp`:
+
+```shell
+# (Self-signed certs, as above)
+# Run nghttpx in background
+docker run -ti --rm \
+  --link myappserver-reverse-proxy:target \
+  --entrypoint /usr/bin/nghttp \
+  dit4c/nghttpx \
+  -v https://target:3000/
 ```
