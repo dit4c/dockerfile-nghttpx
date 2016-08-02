@@ -1,6 +1,6 @@
 # dit4c/nghttpx
 
-[![](https://badge.imagelayers.io/dit4c/nghttpx:latest.svg)](https://imagelayers.io/?images=dit4c/nghttpx:latest)
+[![](https://images.microbadger.com/badges/image/dit4c/nghttpx.svg)](http://microbadger.com/#/images/dit4c/nghttpx)
 
 Very simple [nghttpx](https://nghttp2.org/documentation/nghttpx.1.html) image.
 
