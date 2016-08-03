@@ -11,10 +11,10 @@ env:
   DOCKER2ACI_VERSION: 0.12.0
 before_script:
   - curl -sL https://github.com/appc/docker2aci/releases/download/v${DOCKER2ACI_VERSION}/docker2aci-v${DOCKER2ACI_VERSION}.tar.gz | tar xvz --strip-components=1
-script:
-  - docker build -t nghttpx .
+script: docker build -t nghttpx .
+after_success:
   - docker save nghttpx > nghttpx.docker
-  - ./docker2aci nghttpx.docker && mv nghttpx-latest nghttpx.linux.amd64.aci
+  - ./docker2aci nghttpx.docker && mv nghttpx-latest.aci nghttpx.linux.amd64.aci
   - xz nghttpx.docker
   - sha512sum nghttpx.*
 deploy:
