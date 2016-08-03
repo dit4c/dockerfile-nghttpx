@@ -7,7 +7,8 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
   apk add --update nghttp2 python openssl ca-certificates && \
   rm -rf /var/cache/apk/*
 
-EXPOSE 3000
 USER nghttpx
 ENTRYPOINT ["/usr/bin/nghttpx"]
 CMD ["--help"]
+
+EXPOSE 3000/tcp
