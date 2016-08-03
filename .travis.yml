@@ -16,7 +16,7 @@ after_success:
   - docker save nghttpx > nghttpx.docker
   - ./docker2aci nghttpx.docker && mv nghttpx-latest.aci nghttpx.linux.amd64.aci
   - xz nghttpx.docker
-  - sha512sum nghttpx.*
+  - sha512sum nghttpx.* > SHA512SUM
 deploy:
   provider: releases
   api_key:
