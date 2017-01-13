@@ -8,7 +8,7 @@ addons:
 services:
   - docker
 env:
-  DOCKER2ACI_VERSION: 0.12.0
+  DOCKER2ACI_VERSION: 0.14.0
 before_script:
   - curl -sL https://github.com/appc/docker2aci/releases/download/v${DOCKER2ACI_VERSION}/docker2aci-v${DOCKER2ACI_VERSION}.tar.gz | tar xvz --strip-components=1
 script: docker build -t nghttpx .
