@@ -16,15 +16,18 @@ after_success:
   - docker save nghttpx > nghttpx.docker
   - ./docker2aci nghttpx.docker && mv nghttpx-latest.aci nghttpx.linux.amd64.aci
   - xz nghttpx.docker
-  - sha512sum nghttpx.* > SHA512SUM
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_58ad5fa23b5d_key -iv $encrypted_58ad5fa23b5d_iv -in signing.key.enc -out signing.key -d
+  - ./sign_release.sh nghttpx.linux.amd64.aci nghttpx.docker.xz
 deploy:
   provider: releases
   api_key:
     secure: f1rGWlDdEtX5dcfNt2wfpIcVSDL8ya5rAl85UkTL3XKzccq/0LJqJreHFylhEtuVrgSMP1GcKC8yN9zcCyUir/XjKqC738o5/2gHfKcumeAXLjIJkO0f/GzftAuutGAUYtO/FhWTnujyRDO3LY5fd2QjlVUf4VFR8kEIQCEQ8T8wBJYzMwf28OA2EzivYhCv/TWxzPH/XV6R9/6pA5SqSQnLhkreMBrVFiBE51FoC1ZHZps421zIIaPJD/0lHPr9REMl7Cl2D2mTQrSfr075kS+RsbxLYGKk+YMhkURP4sLItNmjt4/OzsEdqfnB9Es1RjZId9qzuR7tVZ6OrDLPYIq2aTKYYPhTxDBtjfmVaLcni+ILH4o91FkntAc5JWcKRx8z3VFLrE9cmMBEHhvwglontamuadMHmtcUcCci9NinSqzRFiljOF0ndefVgb/lCxgBn9HGjES/BPgRCoGfc3vfxOqequ5PKKWIrFukq2TmeqmAlz5m/lYOvNM3A9Yp3k8L4bSWLETLU0HKXDuI0y99iJyZGBqKdl6hdEn9x5CRLEJpMWwIc/r+k5MrZgUrOeIy5/dTZ7Sv9jQFnr2cFlB7XuTxr/e9kARZoOivPwY2J9nSpue7buFIuIMN0Bfe4audf8Nd5wBisjXioDcrxdvevF+GBF3SB7i/cO+GUMw=
   file:
     - nghttpx.linux.amd64.aci
+    - nghttpx.linux.amd64.aci.asc
     - nghttpx.docker.xz
-    - SHA512SUM
+    - nghttpx.docker.xz.asc
   skip_cleanup: true
   on:
     tags: true

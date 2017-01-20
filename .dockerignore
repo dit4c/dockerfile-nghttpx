@@ -1,0 +1,6 @@
+.gitignore
+COPYING
+README.md
+signing.key
+signing.key.enc
+sign_release.sh
